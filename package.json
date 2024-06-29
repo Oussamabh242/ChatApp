@@ -22,13 +22,14 @@
   "dependencies": {
     "@prisma/client": "^5.16.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.14",
     "prisma": "^5.16.1",
-    "prisma-client": "^0.0.0" , 
-    "cors": "^2.8.5"
+    "prisma-client": "^0.0.0"
   }
 }
