@@ -4,6 +4,7 @@ CREATE TABLE "User" (
     "fullName" VARCHAR(60) NOT NULL,
     "email" VARCHAR(60) NOT NULL,
     "password" VARCHAR(60) NOT NULL,
+    "verified" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
