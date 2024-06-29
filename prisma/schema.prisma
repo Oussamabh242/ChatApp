@@ -12,4 +12,5 @@ model User {
   fullName String @db.VarChar(60)
   email    String @unique @db.VarChar(60)
   password String @db.VarChar(60)
+  verified Boolean @default(false)
 }
