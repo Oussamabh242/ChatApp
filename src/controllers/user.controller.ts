@@ -1,8 +1,9 @@
 import { Request , Response } from "express";
-import { createUser , UserInput, UserLogin, verifyUser} from "../services/user.services";
+import { createUser ,  verifyUser} from "../services/user.services";
 import {prisma} from "../utils/_db" ; 
 import {genToken , genRefToken, regToken} from "../utils/security"
 import jwt from "jsonwebtoken" ;
+import { UserInput , UserLogin } from "../schemas/user.schemas";
 
 export async function singup( req : Request<{} , {} , UserInput> ,res:Response){
     try{
@@ -44,13 +45,17 @@ export async function verifyEamil(req : Request , res: Response) {
 
 export async function login(req : Request<{} , {} ,UserLogin>, res: Response) {
     const v = await verifyUser(req.body) ; 
-    console.log(v) ; 
     if (v===false) return res.status(401).send("wrong credentials") ; 
     
     const access = await genToken({uid : v}) ; 
     const refresh = await genRefToken({uid : v}) ; 
     return res.header("refreshToken", refresh )
         .header("Authorization" ,access)
+        .cookie('refreshToken', refresh, {
+            httpOnly: true, 
+            secure: true, 
+            sameSite: 'strict' 
+          })
         .send(access) ; 
     
 }

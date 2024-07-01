@@ -1,10 +1,13 @@
 import express, { Request, Response } from 'express';
-import { router } from './routes/user.routes';
+import { userRouter } from './routes/user.routes';
 import dotenv from "dotenv" ; 
 import bodyParser from "body-parser" ; 
 import cors from "cors" ;
+import cookieParser from "cookie-parser" ;
+import { requestRouter } from './routes/request.routes';
+
 const corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: [
       'X-CSRF-Token',
@@ -15,9 +18,11 @@ const corsOptions = {
       'Content-MD5',
       'Content-Type',
       'Date',
-      'X-Api-Version'
+      'X-Api-Version' , 
   ],
-  credentials: true
+  exposedHeaders: ['refreshtoken', 'Authorization'] ,
+  
+  credentials: true 
 };
 
 
@@ -28,8 +33,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json()) ; 
 app.use(cors(corsOptions)) ; 
+app.use(cookieParser()) ; 
 
-app.use("/users",router) ; 
+app.use("/users",userRouter) ; 
+app.use("/requests" , requestRouter) ; 
 
 app.get('/', (req: Request, res: Response) => {; 
   res.send('Hello, TypeScript + Express!');

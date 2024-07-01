@@ -5,8 +5,7 @@ import { genToken } from "../utils/security";
 const JWT_KEY  = process.env.JWT_SECRET_KEY ; 
 export const auth = async (req:Request , res : Response , next :any)=>{
     const accessToken = req.headers['authorization'];
-    const refreshToken = req.headers["x-refreshtoken"] ;
- 
+    const refreshToken = req.cookies["refreshToken"];
     if (accessToken === undefined && refreshToken===undefined) {
         return res.status(401).send('Access Denied. No token provided.');
     }
@@ -40,7 +39,7 @@ export const auth = async (req:Request , res : Response , next :any)=>{
         } 
         catch (error) {
             return res.status(400).send('Invalid Token.');
-          }
+        }
         
     }
 }

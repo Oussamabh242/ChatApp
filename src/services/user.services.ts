@@ -2,18 +2,9 @@
 import {prisma} from "../utils/_db" ; 
 import nodemailer from "nodemailer" ; 
 import { comparePassword, hashPassword } from "../utils/security";
+import { UserInput, UserLogin } from "../schemas/user.schemas";
 
 
-
-export interface UserInput {
-    fullName : string , 
-    email : string,
-    password : string 
-} ; 
-export interface UserLogin {
-    email : string, 
-    password : string
-} ; 
 
 export async function createUser(data : UserInput) {
     try{
@@ -74,8 +65,6 @@ function sendMail(email : string , userId :string){
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error("Error sending email: ", error);
-        } else {
-          console.log("Email sent: ", info.response);
-        }
+        } 
       });
 }

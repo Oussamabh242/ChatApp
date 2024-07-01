@@ -13,4 +13,55 @@ model User {
   email    String @unique @db.VarChar(60)
   password String @db.VarChar(60)
   verified Boolean @default(false)
+  recived Request[] @relation("RecivedRequests")
+  sent Request[]    @relation("SentRequests")
+  chats ChatUser[]
+  messages Message[]
+}
+
+model Request{
+  id String @id @default(cuid())
+
+  sender User @relation("SentRequests" ,fields: [senderId], references: [id])
+  senderId String 
+
+  reciver User @relation("RecivedRequests",   fields: [recivedId] , references: [id])
+  recivedId String
+
+  status RequestStatus @default(pending)
+  date DateTime @db.Timestamp() @default(now())
+}
+
+model Chat{
+  id String @id @default(cuid())
+  name String @db.VarChar(60)
+  date DateTime @db.Timestamp() @default(now())
+  users ChatUser[]
+  messages Message[]
+}
+
+model ChatUser{
+  chat Chat @relation(fields: [chatId], references: [id])
+  chatId String
+
+  user User @relation(fields: [userId] , references: [id])
+  userId String 
+
+  @@id([chatId,userId])
+}
+
+model Message{
+  id String @id @default(cuid())
+  text String @db.VarChar(100)
+
+  sender User @relation(fields: [senderId] , references: [id])
+  senderId String 
+
+  chat Chat  @relation(fields: [chatId] , references: [id])
+  chatId String
+}
+
+enum RequestStatus {
+  pending 
+  confirmed
 }

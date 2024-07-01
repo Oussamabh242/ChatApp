@@ -2,12 +2,12 @@ import express from "express";
 import { refresh, login, singup, verifyEamil } from "../controllers/user.controller";
 import { auth } from "../middleware/auth";
 
-export const router = express.Router() ; 
+export const userRouter = express.Router() ; 
 
-router.post("/" , singup ) ; 
-router.put("/activate/:uid" , verifyEamil) ; 
-router.post("/auth" , login ) ;
-router.get("/" ,refresh) ; 
-router.get("/me" ,  auth, (req , res)=>{
+userRouter.post("/" , singup ) ; 
+userRouter.put("/activate/:uid" , verifyEamil) ; 
+userRouter.post("/auth" , login ) ;
+userRouter.get("/" ,refresh) ; 
+userRouter.get("/me" ,  auth, (req , res)=>{
     res.send(res.locals.user)  ;
 })
