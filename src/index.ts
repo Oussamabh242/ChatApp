@@ -5,6 +5,8 @@ import bodyParser from "body-parser" ;
 import cors from "cors" ;
 import cookieParser from "cookie-parser" ;
 import { requestRouter } from './routes/request.routes';
+import {prisma} from './utils/_db' ; 
+
 
 const corsOptions = {
   origin: 'http://localhost:5173',
@@ -44,4 +46,5 @@ app.get('/', (req: Request, res: Response) => {;
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+  console.log('Connected to the database') ; 
 });
