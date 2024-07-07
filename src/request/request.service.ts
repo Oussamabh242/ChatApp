@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ResponseDto } from './dto/respond.dto';
+import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
 
 @Injectable()
 export class RequestService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService , private readonly chatRoomsService : ChatRoomsService) {}
   async sendRequest(uid: string, sender: string) {
     const request = await this.prisma.request.create({
       data: {
@@ -32,12 +33,14 @@ export class RequestService {
     });
     return requests;
   }
-  handleResponse(response: ResponseDto, uid: string) {
+  async handleResponse(response: ResponseDto, userid: string) {
     if (response.response === true) {
-      this.acceptRequest(response.reqid, uid);
+      const {senderId , recivedId} = await this.prisma.request.findUnique({where:{id : response.reqid}}) ; 
+      const {id} = await this.chatRoomsService.createRoom([senderId, recivedId] ) ; 
+      await this.chatRoomsService.addUserToChat([senderId, recivedId],id) ; 
       return 'you acceppted the request';
     } else {
-      this.refuseRequest(response.reqid, uid);
+      this.refuseRequest(response.reqid, userid);
       return 'you refused the request';
     }
   }
