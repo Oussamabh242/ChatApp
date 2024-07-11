@@ -16,7 +16,6 @@ export class ChatRoomsService {
     } 
 
     async addUserToChat(subs:string[] , chatId:string ){
-        console.log(subs , chatId) ; 
         try{
             for(let i = 0 ; i<subs.length ; i++){
                 await this.prisma.chatUser.create({
@@ -58,6 +57,16 @@ export class ChatRoomsService {
                 users : {
                     select : {
                         user :{
+                            select : {
+                                fullName : true 
+                            }
+                        }
+                    }
+                } , 
+                messages : {
+                    select : {
+                        text : true , 
+                        sender : {
                             select : {
                                 fullName : true 
                             }
