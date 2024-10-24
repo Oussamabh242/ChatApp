@@ -17,6 +17,9 @@ model User {
   sent Request[]    @relation("SentRequests")
   chats ChatUser[]
   messages Message[]
+  friendships Friend[] @relation("Friendship1")
+  friendship Friend[] @relation("Friendship2")
+
 }
 
 model Request{
@@ -61,6 +64,14 @@ model Message{
   chatId String
 
   DateSent DateTime @default(now())
+}
+
+model Friend {
+  id        String @id @default(cuid()) 
+  userId1   String
+  userId2   String
+  user1     User @relation("Friendship1", fields: [userId1], references: [id])
+  user2     User @relation("Friendship2", fields: [userId2], references: [id])
 }
 
 enum RequestStatus {
