@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RequestModule } from './request/request.module';
 import { ChatRoomsModule } from './chat-rooms/chat-rooms.module';
 import { MessagesModule } from './messages/messages.module';
+import { FrinedshipModule } from './frinedship/frinedship.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MessagesModule } from './messages/messages.module';
     RequestModule,
     ChatRoomsModule,
     MessagesModule,
+    FrinedshipModule,
   ],
   controllers: [AppController],
   providers: [AppService],
